@@ -2,7 +2,16 @@ import React, { useState } from 'react';
 import UsuariosTab from './UsuariosTab';
 import LogsTab from './LogsTab';
 import CreateStaffModal from './CreateStaffModal';
-
+import MascotasTab from './MascotasTab';
+import CitasTab from './CitasTab';
+import BloqueosTab from './BloqueosTab';
+import DisponibilidadGroomersTab from './DisponibilidadGroomersTab';
+import ServiciosTab from './ServiciosTab';
+import InventarioTab from './InventarioTab';
+import HorariosTab from './HorariosTab';
+import TiendaTab from './TiendaTab';
+import PedidosTab from './PedidosTab';
+import ProductosAdminTab from './ProductosAdminTab';
 const theme = {
   gradientMain: 'linear-gradient(135deg, #7C3AED 0%, #EC4899 100%)',
   gradientSoft: 'linear-gradient(135deg, #EDE9FE 0%, #FDF2F8 100%)',
@@ -164,19 +173,35 @@ function Dashboard() {
   const [refreshKey, setRefreshKey] = useState(0);
   const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-  const tabs = [
-    { id: 'usuarios',  label: 'Usuarios',   icon: '👥', roles: ['admin'] },
-    { id: 'citas',     label: 'Citas',       icon: '📅', roles: ['admin', 'groomer', 'recepcion'] },
-    { id: 'logs',      label: 'Auditoría',   icon: '📋', roles: ['admin'] },
-    { id: 'perfil',    label: 'Mi Perfil',   icon: '👤', roles: ['admin', 'groomer', 'recepcion', 'cliente'] },
-  ];
-
+const tabs = [
+  { id: 'usuarios',      label: ' Usuarios',      icon: '👥', roles: ['admin'] },
+  { id: 'citas',         label: ' Citas',          icon: '📅', roles: ['admin', 'groomer', 'recepcion', 'cliente'] },
+  { id: 'mascotas',      label: ' Mascotas',       icon: '🐾', roles: ['admin', 'cliente', 'recepcion'] },
+  { id: 'servicios',     label: ' Servicios',      icon: '🛠️', roles: ['admin'] },
+  { id: 'inventario',    label: ' Inventario',      icon: '📦', roles: ['admin', 'recepcion'] },
+  { id: 'horarios',      label: ' Horarios',        icon: '🕒', roles: ['admin', 'recepcion'] },
+  { id: 'bloqueos',      label: ' Bloqueos',        icon: '🚫', roles: ['admin', 'recepcion'] },
+  { id: 'disponibilidad', label: ' Disp. Groomers', icon: '🗓️', roles: ['admin'] },
+  { id: 'logs',          label: ' Auditoría',       icon: '📋', roles: ['admin'] },
+  { id: 'perfil',        label: ' Mi Perfil',       icon: '👤', roles: ['admin', 'groomer', 'recepcion', 'cliente'] },
+  { id: 'tienda',  label: '🛒 Tienda',  icon: '', roles: ['admin', 'cliente', 'recepcion'] },
+  { id: 'pedidos', label: '📦 Pedidos', icon: '', roles: ['admin', 'cliente', 'recepcion'] },
+];
   const availableTabs = tabs.filter(t => t.roles.includes(user.rol));
 
   const handleStaffCreated = () => setRefreshKey(prev => prev + 1);
 
   const renderTab = () => {
     switch (activeTab) {
+      case 'mascotas': return <MascotasTab />;
+      case 'bloqueos':        return <BloqueosTab />;
+      case 'servicios': return <ServiciosTab />;
+      case 'inventario': return <InventarioTab />;
+      case 'horarios':   return <HorariosTab />;
+case 'tienda':
+  return (user.rol === 'admin' || user.rol === 'recepcion') ? <ProductosAdminTab /> : <TiendaTab />;      case 'pedidos': return <PedidosTab />;
+      case 'disponibilidad':  return <DisponibilidadGroomersTab />;
+      case 'citas': return <CitasTab />;
       case 'usuarios': return <UsuariosTab key={refreshKey} />;
       case 'logs':     return <LogsTab />;
       default:

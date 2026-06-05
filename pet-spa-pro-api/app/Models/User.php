@@ -100,7 +100,20 @@ public function markEmailAsVerifiedWithCode(): void
     {
         return $this->hasMany(Cita::class, 'staff_id');
     }
+    public function mascotas()
+    {
+        return $this->hasMany(Mascota::class);
+    }
 
+    public function disponibilidades()
+    {
+        return $this->hasMany(DisponibilidadGroomer::class);
+    }
+
+    public function pagosRegistrados()
+    {
+        return $this->hasMany(Pago::class, 'registrado_por');
+    }
     public function auditLogs()
     {
         return $this->hasMany(AuditLog::class);
